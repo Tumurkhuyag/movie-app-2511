@@ -22,7 +22,7 @@ export const Slides = () => {
       const { data } = await axiosInstance(
         "/movie/now_playing?language=en-US&page=1"
       );
-      console.log(data.results);
+      // console.log(data.results);
       setMovies(data.results);
     };
     fetchData();
@@ -34,8 +34,8 @@ export const Slides = () => {
         {movies.map((movie, index) => {
           const imgUrl = `${process.env.NEXT_PUBLIC_TMDB_IMAGE_SERVICE_URL}/original${movie.backdrop_path}`;
           return (
-            <CarouselItem key={index} className="p-0">
-              <div className="w-full h-[600]">
+            <CarouselItem key={index} className="p-0 relative">
+              <div className="w-full h-[600] ">
                 <Image
                   src={imgUrl}
                   width={500}
@@ -45,6 +45,7 @@ export const Slides = () => {
                   style={{ objectFit: "cover" }}
                   loading="eager"
                 />
+                <div className=""></div>
               </div>
 
               {/* Эндээс слайд дээр харуулах контендуудийн бичиглэл явж байгаа */}
@@ -54,7 +55,7 @@ export const Slides = () => {
                     Now Playing:
                   </p>
                   <h1 className="text-white text-4xl font-bold leading-10">
-                    Wicked
+                    {movie.title}
                   </h1>
                 </div>
                 <div className="flex items-center gap-0.5">
@@ -62,6 +63,7 @@ export const Slides = () => {
                   <div className="flex items-center">
                     <p className="text-neutral-50 text-lg font-semibold leading-7">
                       {/* imgUrl дээр зураг орж ирэхдээ 20 слайд тус бүр дэрэ орж ирсэн мөртлөө энд яагаад нэг слайд дээр бүх оноонууд орж ирээд байгааг ойлгодоггүй */}
+
                       {movie.vote_average}
                     </p>
                     <p className="text-neutral-50 opacity-50 text-base font-normal leading-6">
@@ -70,10 +72,7 @@ export const Slides = () => {
                   </div>
                 </div>
                 <p className="text-neutral-50 text-s font-normal leading-5">
-                  Elphaba, a misunderstood young woman because of her green
-                  skin, and Glinda, a popular girl, become friends at Shiz
-                  University in the Land of Oz. After an encounter with the
-                  Wonderful Wizard of Oz, their friendship reaches a crossroads.
+                  {movie.overview}
                 </p>
                 <Button variant="outline">
                   <Play />
