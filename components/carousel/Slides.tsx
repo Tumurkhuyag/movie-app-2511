@@ -1,6 +1,17 @@
 "use client";
 
 import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+import {
   Carousel,
   CarouselContent,
   CarouselItem,
@@ -74,10 +85,32 @@ export const Slides = () => {
                 <p className="text-neutral-50 text-s font-normal leading-5">
                   {movie.overview}
                 </p>
-                <Button variant="outline">
-                  <Play />
-                  <p>Watch Trailer</p>
-                </Button>
+                {/* <Button variant="outline">
+                  
+                </Button> */}
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline">
+                      <Play />
+                      <p>Watch Trailer</p>
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Share link</DialogTitle>
+                      <DialogDescription>
+                        Anyone who has this link will be able to view this.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter className="sm:justify-start">
+                      <DialogClose asChild>
+                        <Button type="button" variant="secondary">
+                          Close
+                        </Button>
+                      </DialogClose>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </div>
             </CarouselItem>
           );
