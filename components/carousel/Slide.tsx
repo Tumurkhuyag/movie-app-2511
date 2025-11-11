@@ -10,15 +10,14 @@ import {
 } from "@/components/ui/dialog";
 
 import { Key, Play, Star } from "lucide-react";
-import Image from "next/image";
 import { Button } from "../ui/button";
 import ReactPlayer from "react-player";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "@/lib/axios-instance";
+import { MovieImage } from "../common/MovieImage";
 
 export const Slide = ({ movie }: { movie: MovieDetail }) => {
   const [videoUrl, setVideoUrl] = useState("");
-  const imgUrl = `${process.env.NEXT_PUBLIC_TMDB_IMAGE_SERVICE_URL}/original${movie.backdrop_path}`;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,16 +33,11 @@ export const Slide = ({ movie }: { movie: MovieDetail }) => {
 
   return (
     <div className="w-full h-[600] relative">
-      <Image
-        src={imgUrl}
-        width={500}
-        height={500}
-        alt={movie.title}
+      <MovieImage
+        backdrop_path={movie.backdrop_path}
+        title={movie.title}
         className="h-full w-full"
-        style={{ objectFit: "cover" }}
-        loading="eager"
       />
-
       {/* Эндээс слайд дээр харуулах контендуудийн бичиглэл явж байгаа */}
       <div className="left-[140px] top-[178px] absolute inline-flex flex-col justify-start items-start gap-4 w-[400px]">
         <div>
