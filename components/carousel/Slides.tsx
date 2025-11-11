@@ -10,6 +10,7 @@ import {
 import { axiosInstance } from "@/lib/axios-instance";
 import { useEffect, useState } from "react";
 import { Slide } from "./Slide";
+import { LoaderIcon } from "lucide-react";
 
 export const Slides = () => {
   const [movies, setMovies] = useState<MovieDetail[]>([]);
@@ -17,14 +18,24 @@ export const Slides = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       const { data } = await axiosInstance(
         "/movie/now_playing?language=en-US&page=1"
       );
       // console.log(data.results);
       setMovies(data.results);
+      setIsLoading(false);
     };
     fetchData();
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-[600px] flex items-center justify-center">
+        <LoaderIcon className="spin" size={30} />
+      </div>
+    );
+  }
 
   return (
     <Carousel className="w-full">
