@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { Play, Star } from "lucide-react";
+import { Key, Play, Star } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import ReactPlayer from "react-player";
@@ -25,7 +25,8 @@ export const Slide = ({ movie }: { movie: MovieDetail }) => {
       const { data } = await axiosInstance(
         `movie/${movie.id}/videos?language=en-US`
       );
-      //   console.log(data.results[0]);
+      // data.results array -ийн зарим элементүүд хоосон байгаагаас болоод key undefined байж болохгүй гэсэн алдаа зааж байгаа.
+      // console.log(data.results[0].key);
       setVideoUrl(data.results[0].key);
     };
     fetchData();
