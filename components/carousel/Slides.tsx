@@ -11,6 +11,7 @@ import { axiosInstance } from "@/lib/axios-instance";
 import { useEffect, useState } from "react";
 import { Slide } from "./Slide";
 import { LoaderIcon } from "lucide-react";
+import { Skeleton } from "../ui/skeleton";
 
 export const Slides = () => {
   const [movies, setMovies] = useState<MovieDetail[]>([]);
@@ -31,9 +32,11 @@ export const Slides = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full h-[600px] flex items-center justify-center">
-        <LoaderIcon className="spin" size={30} />
-      </div>
+      <Skeleton className="w-full h-[600px] flex items-center justify-center" />
+      // <div className="w-full h-[600px] flex items-center justify-center">
+      //   <LoaderIcon className="spin" size={30} />
+      //   <Skeleton className="w-full h-[600px] flex items-center justify-center" />
+      // </div>
     );
   }
 
