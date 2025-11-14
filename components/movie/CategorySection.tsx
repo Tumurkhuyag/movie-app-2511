@@ -42,6 +42,7 @@ export const CategorySection = ({
               <MovieImage
                 backdrop_path={movie.backdrop_path}
                 title={movie.title}
+                className=""
               />
               <div>
                 <div className="flex gap-2">
