@@ -6,7 +6,6 @@ import { axiosInstance } from "@/lib/axios-instance";
 import { MovieImage } from "../common/MovieImage";
 import { ArrowRight, Star } from "lucide-react";
 import Link from "next/link";
-import { Skeleton } from "../ui/skeleton";
 import { MovieCard } from "../cards/MovieCard";
 
 export const CategorySection = ({
