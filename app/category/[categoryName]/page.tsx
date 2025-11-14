@@ -6,7 +6,7 @@ import { axiosInstance } from "@/lib/axios-instance";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const Home = () => {
+const CategorySectionDetail = () => {
   const params = useParams();
   console.log(params);
 
@@ -34,7 +34,7 @@ const Home = () => {
           {params.categoryName}
         </p>
       </div>
-      <div className="grid grid-cols-5 grid-rows-2 gap-8">
+      <div className="grid grid-cols-5 grid-rows-2 gap-8 mb-14">
         {movies.map((movie) => {
           return (
             <MovieCard
@@ -51,4 +51,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default CategorySectionDetail;
