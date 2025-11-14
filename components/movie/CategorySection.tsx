@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { axiosInstance } from "@/lib/axios-instance";
 import { MovieImage } from "../common/MovieImage";
-import { Star } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 import Link from "next/link";
+import { Skeleton } from "../ui/skeleton";
+import { MovieCard } from "../cards/MovieCard";
 
 export const CategorySection = ({
   categoryName,
@@ -31,33 +33,27 @@ export const CategorySection = ({
   }, []);
 
   return (
-    <div className="w-full max-w-7xl m-auto">
-      <div className="w-full flex items-center justify-between">
-        <p>{categoryName}</p>
+    <div className="w-full max-w-7xl m-auto mt-14 mb-14">
+      <div className="w-full flex items-center justify-between mb-8">
+        <p className="text-2xl font-semibold items-center">{categoryName}</p>
         {/* {console.log(categoryValue)} */}
         <Link href={`/category/${categoryValue}`}>
-          <Button variant="ghost">See more</Button>
+          <Button variant="ghost">
+            <p>See more</p>
+            <ArrowRight />
+          </Button>
         </Link>
       </div>
       <div className="grid grid-cols-5 grid-rows-2 gap-8">
         {movies.slice(0, 10).map((movie) => {
           return (
-            <div key={movie.id}>
-              <MovieImage
-                backdrop_path={movie.backdrop_path}
-                title={movie.title}
-                className=""
-              />
-              <div>
-                <div className="flex gap-2">
-                  <Star size={28} strokeWidth={0} fill="#FDE047" />
-                  <p>
-                    {movie.vote_average} <span>/10</span>
-                  </p>
-                </div>
-                <p>{movie.title}</p>
-              </div>
-            </div>
+            <MovieCard
+              id={movie.id}
+              backdrop_path={movie.backdrop_path}
+              title={movie.title}
+              vote_average={movie.vote_average}
+              className=""
+            />
           );
         })}
       </div>
