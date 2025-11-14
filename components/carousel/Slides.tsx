@@ -10,7 +10,7 @@ import {
 import { axiosInstance } from "@/lib/axios-instance";
 import { useEffect, useState } from "react";
 import { Slide } from "./Slide";
-import { LoaderIcon } from "lucide-react";
+// import { LoaderIcon } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 
 export const Slides = () => {
