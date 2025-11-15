@@ -6,6 +6,7 @@ import { axiosInstance } from "@/lib/axios-instance";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { MovieCard } from "../cards/MovieCard";
+import { CategorySectionSkeleton } from "../skeletons/CategorySectionSkeleton";
 
 export const CategorySection = ({
   categoryName,
@@ -30,12 +31,16 @@ export const CategorySection = ({
     fetchData();
   }, []);
 
+  if (isLoading) {
+    return <CategorySectionSkeleton />;
+  }
+
   return (
     <div className="w-full max-w-7xl m-auto mt-14 mb-14">
       <div className="w-full flex items-center justify-between mb-8">
         <p className="text-2xl font-semibold items-center">{categoryName}</p>
         {/* {console.log(categoryValue)} */}
-        <Link href={`/category/${categoryValue}`}>
+        <Link rel="preload" href={`/category/${categoryValue}`}>
           <Button variant="ghost">
             <p>See more</p>
             <ArrowRight />
@@ -51,7 +56,6 @@ export const CategorySection = ({
               backdrop_path={movie.backdrop_path}
               title={movie.title}
               vote_average={movie.vote_average}
-              className=""
             />
           );
         })}

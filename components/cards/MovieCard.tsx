@@ -6,7 +6,7 @@ type MovieCardProps = {
   backdrop_path: string;
   title: string;
   vote_average: string;
-  className: string;
+  className?: string;
 };
 
 export const MovieCard = ({

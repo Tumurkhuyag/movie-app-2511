@@ -2,13 +2,14 @@
 
 import { MovieCard } from "@/components/cards/MovieCard";
 import { Header } from "@/components/header/Header";
+import { CategorySectionSkeleton } from "@/components/skeletons/CategorySectionSkeleton";
 import { axiosInstance } from "@/lib/axios-instance";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const CategorySectionDetail = () => {
   const params = useParams();
-  console.log(params);
+  // console.log(params);
 
   const [movies, setMovies] = useState<MovieDetail[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,18 +27,23 @@ const CategorySectionDetail = () => {
     fetchData();
   }, []);
 
+  if (isLoading) {
+    return <CategorySectionSkeleton />;
+  }
+
   return (
     <div className="w-full max-w-7xl m-auto">
       <Header />
       <div className="w-full flex mb-8 mt-13">
-        <p className="justify-start text-text-text-foreground text-3xl font-semibold font-['Inter'] leading-9">
+        <p className="justify-start text-3xl font-semibold leading-9">
           {params.categoryName}
         </p>
       </div>
       <div className="grid grid-cols-5 grid-rows-2 gap-8 mb-14">
-        {movies.map((movie) => {
+        {movies?.map((movie) => {
           return (
             <MovieCard
+              key={movie.id}
               id={movie.id}
               backdrop_path={movie.backdrop_path}
               title={movie.title}
