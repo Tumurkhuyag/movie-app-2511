@@ -6,6 +6,7 @@ import { CategorySectionSkeleton } from "@/components/skeletons/CategorySectionS
 import { axiosInstance } from "@/lib/axios-instance";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { CATEGORIES } from "@/app/_constants";
 
 const CategorySectionDetail = () => {
   const params = useParams();
@@ -13,6 +14,8 @@ const CategorySectionDetail = () => {
 
   const [movies, setMovies] = useState<MovieDetail[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const category = CATEGORIES.find((el) => el.value === params.categoryName);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +39,7 @@ const CategorySectionDetail = () => {
       <Header />
       <div className="w-full flex mb-8 mt-13">
         <p className="justify-start text-3xl font-semibold leading-9">
-          {params.categoryName}
+          {category?.name}
         </p>
       </div>
       <div className="grid grid-cols-5 grid-rows-2 gap-8 mb-14">
@@ -48,7 +51,6 @@ const CategorySectionDetail = () => {
               backdrop_path={movie.backdrop_path}
               title={movie.title}
               vote_average={movie.vote_average}
-              className=""
             />
           );
         })}
