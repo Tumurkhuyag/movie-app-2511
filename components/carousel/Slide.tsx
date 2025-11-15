@@ -1,6 +1,5 @@
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -9,7 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { Key, Play, Star } from "lucide-react";
+import { Play, Star } from "lucide-react";
 import { Button } from "../ui/button";
 import ReactPlayer from "react-player";
 import { useEffect, useState } from "react";
@@ -26,7 +25,7 @@ export const Slide = ({ movie }: { movie: MovieDetail }) => {
       );
       // data.results array -ийн зарим элементүүд хоосон байгаагаас болоод key undefined байж болохгүй гэсэн алдаа зааж байгаа.
       // console.log(data.results[0].key);
-      setVideoUrl(data.results[0].key);
+      setVideoUrl(data.results[0]?.key);
     };
     fetchData();
   }, []);

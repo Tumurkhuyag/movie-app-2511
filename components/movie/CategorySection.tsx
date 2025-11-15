@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { axiosInstance } from "@/lib/axios-instance";
-import { MovieImage } from "../common/MovieImage";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { MovieCard } from "../cards/MovieCard";
 
@@ -44,9 +43,10 @@ export const CategorySection = ({
         </Link>
       </div>
       <div className="grid grid-cols-5 grid-rows-2 gap-8">
-        {movies.slice(0, 10).map((movie) => {
+        {movies?.slice(0, 10).map((movie) => {
           return (
             <MovieCard
+              key={movie.id}
               id={movie.id}
               backdrop_path={movie.backdrop_path}
               title={movie.title}
