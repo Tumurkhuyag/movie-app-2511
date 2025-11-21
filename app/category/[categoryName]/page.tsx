@@ -4,31 +4,37 @@ import { MovieCard } from "@/components/cards/MovieCard";
 import { Header } from "@/components/header/Header";
 import { CategorySectionSkeleton } from "@/components/skeletons/CategorySectionSkeleton";
 import { axiosInstance } from "@/lib/axios-instance";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CATEGORIES } from "@/app/_constants";
+import { MoviePagination } from "@/components/pagination/MoviePagination";
 
 const CategorySectionDetail = () => {
   const params = useParams();
   // console.log(params);
 
   const [movies, setMovies] = useState<MovieDetail[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
   const category = CATEGORIES.find((el) => el.value === params.categoryName);
+
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page") ?? 1;
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       const { data } = await axiosInstance(
-        `/movie/${params.categoryName}?language=en-US&page=1`
+        `/movie/${params.categoryName}?language=en-US&page=${page}`
       );
-      // console.log(data.results);
+      // console.log(data);
       setMovies(data.results);
+      setTotalPages(data.total_pages);
       setIsLoading(false);
     };
     fetchData();
-  }, []);
+  }, [page]);
 
   if (isLoading) {
     return <CategorySectionSkeleton />;
@@ -42,7 +48,7 @@ const CategorySectionDetail = () => {
           {category?.name}
         </p>
       </div>
-      <div className="grid grid-cols-5 grid-rows-2 gap-8 mb-14">
+      <div className="grid grid-cols-5 grid-rows-1 gap-8 mb-14">
         {movies?.map((movie) => {
           return (
             <MovieCard
@@ -54,6 +60,11 @@ const CategorySectionDetail = () => {
             />
           );
         })}
+      </div>
+      <div className="w-full justify-end flex pb-20">
+        <div>
+          <MoviePagination totalPages={totalPages} />
+        </div>
       </div>
     </div>
   );
