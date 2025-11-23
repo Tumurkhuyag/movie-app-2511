@@ -3,35 +3,42 @@
 import { MovieImage } from "@/components/common/MovieImage";
 import { Header } from "@/components/header/Header";
 import { Button } from "@/components/ui/button";
-import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
-import { axiosInstance } from "@/lib/axios-instance";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
+  DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@radix-ui/react-dialog";
+} from "@/components/ui/dialog";
+import { axiosInstance } from "@/lib/axios-instance";
 import { Star, User, Play } from "lucide-react";
-import Link from "next/link";
+import ReactPlayer from "react-player";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import ReactPlayer from "react-player";
+// import { Badge } from "@/components/ui/badge";
 
 const CategorySectionDetail = () => {
   const params = useParams();
   const [movieDetails, setMovieDetails] = useState<MovieDetail | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [trailerVideoURL, setTrailerVideoURL] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const { data } = await axiosInstance(
+      const { data: movieInfo } = await axiosInstance(
         `/movie/${params.movieId}?language=en-US`
       );
 
-      console.log(data);
-      setMovieDetails(data);
+      const { data: trailerVideo } = await axiosInstance(
+        `/movie/${params.movieId}/videos?language=en-US`
+      );
+
+      //   console.log(movieInfo);
+      setMovieDetails(movieInfo);
+      setTrailerVideoURL(trailerVideo?.results[0]?.key);
       setIsLoading(false);
     };
     fetchData();
@@ -42,7 +49,6 @@ const CategorySectionDetail = () => {
 
   return (
     <div className="w-full max-w-7xl m-auto">
-      <Header />
       <div className="w-full max-w-[1080px] m-auto mt-[52px]">
         <div className="w-full flex items-end justify-between mb-8">
           <div>
@@ -71,17 +77,18 @@ const CategorySectionDetail = () => {
             </div>
           </div>
         </div>
+
         <div className="h-[428px] flex gap-8">
           <MovieImage
             backdrop_path={movieDetails?.poster_path ?? ""}
             title={movieDetails?.title ?? ""}
-            className="aspect-2/3 max-w-[290px]"
+            className="aspect-2/3 max-w-[290px] rounded-md"
           />
           <div className="w-full relative">
             <MovieImage
               backdrop_path={movieDetails?.backdrop_path ?? ""}
               title={movieDetails?.title ?? ""}
-              className="w-full"
+              className="w-full rounded-md"
             />
 
             <Dialog>
@@ -99,7 +106,7 @@ const CategorySectionDetail = () => {
               </DialogTrigger>
               <DialogContent className="w-full max-w-[full] sm:max-w-fit">
                 <DialogHeader>
-                  <DialogTitle>hello</DialogTitle>
+                  <DialogTitle>{movieDetails?.title} - Trailer</DialogTitle>
                   <DialogDescription></DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
@@ -107,13 +114,21 @@ const CategorySectionDetail = () => {
                   <ReactPlayer
                     width={1080}
                     height={608}
-                    src={`https://www.youtube.com/watch?v=`}
+                    src={`https://www.youtube.com/watch?v=${trailerVideoURL}`}
                   />
                 </DialogFooter>
               </DialogContent>
             </Dialog>
           </div>
         </div>
+
+        {/* <div>
+          {movieDetails?.genres.map(({ name, id }) => (
+            <Badge key={id} variant="outline">
+              {name}
+            </Badge>
+          ))}
+        </div> */}
       </div>
     </div>
   );

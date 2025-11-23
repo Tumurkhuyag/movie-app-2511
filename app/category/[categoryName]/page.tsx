@@ -42,7 +42,6 @@ const CategorySectionDetail = () => {
 
   return (
     <div className="w-full max-w-7xl m-auto">
-      <Header />
       <div className="w-full flex mb-8 mt-13">
         <p className="justify-start text-3xl font-semibold leading-9">
           {category?.name}

@@ -8,4 +8,5 @@ type MovieDetail = {
   id: number;
   release_date: string;
   runtime: number;
+  genres: [];
 };

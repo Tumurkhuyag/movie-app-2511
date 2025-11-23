@@ -6,7 +6,6 @@ import { CATEGORIES } from "./_constants";
 export default function Home() {
   return (
     <div className="">
-      <Header />
       <Slides />
       {CATEGORIES.map(({ name, value }) => (
         <CategorySection
