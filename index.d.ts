@@ -9,4 +9,5 @@ type MovieDetail = {
   release_date: string;
   runtime: number;
   genres: [];
+  crew: string;
 };

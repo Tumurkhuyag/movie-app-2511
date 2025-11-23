@@ -17,11 +17,13 @@ import { Star, User, Play } from "lucide-react";
 import ReactPlayer from "react-player";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-// import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 
 const CategorySectionDetail = () => {
   const params = useParams();
-  const [movieDetails, setMovieDetails] = useState<MovieDetail | null>(null);
+  const [movieDetails, setMovieDetails] = useState<MovieDetail>();
+  const [movieCredits, setMovieCredits] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
   const [trailerVideoURL, setTrailerVideoURL] = useState("");
 
@@ -36,9 +38,14 @@ const CategorySectionDetail = () => {
         `/movie/${params.movieId}/videos?language=en-US`
       );
 
+      const { data: movieCredit } = await axiosInstance(
+        `/movie/${params.movieId}/credits?language=en-US`
+      );
+
       //   console.log(movieInfo);
       setMovieDetails(movieInfo);
       setTrailerVideoURL(trailerVideo?.results[0]?.key);
+      setMovieCredits(movieCredit);
       setIsLoading(false);
     };
     fetchData();
@@ -49,8 +56,8 @@ const CategorySectionDetail = () => {
 
   return (
     <div className="w-full max-w-7xl m-auto">
-      <div className="w-full max-w-[1080px] m-auto mt-[52px]">
-        <div className="w-full flex items-end justify-between mb-8">
+      <div className="w-full max-w-[1080px] flex flex-col gap-8 m-auto mt-[52px]">
+        <div className="w-full flex items-end justify-between">
           <div>
             <div className="text-4xl font-bold leading-10">
               {movieDetails?.title}
@@ -78,7 +85,7 @@ const CategorySectionDetail = () => {
           </div>
         </div>
 
-        <div className="h-[428px] flex gap-8">
+        <div className="h-[428px] flex gap-12">
           <MovieImage
             backdrop_path={movieDetails?.poster_path ?? ""}
             title={movieDetails?.title ?? ""}
@@ -122,13 +129,76 @@ const CategorySectionDetail = () => {
           </div>
         </div>
 
-        {/* <div>
-          {movieDetails?.genres.map(({ name, id }) => (
-            <Badge key={id} variant="outline">
-              {name}
-            </Badge>
-          ))}
-        </div> */}
+        <div className="flex flex-col gap-8">
+          <div className="flex gap-3">
+            {movieDetails?.genres.map(({ name, id }) => (
+              <Badge key={id} variant="outline">
+                {name}
+              </Badge>
+            ))}
+          </div>
+
+          <p>{movieDetails?.overview}</p>
+
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-col">
+              <div className="flex gap-[53px]">
+                <div className="flex w-16 font-bold">
+                  <p>Director</p>
+                </div>
+
+                <div className="flex flex-wrap gap-5">
+                  {(movieCredits?.crew as any[] | undefined)
+                    ?.filter((c: any) => c.job === "Director")
+                    .map(({ id, name }: any) => (
+                      <p key={id} className="font-regular">
+                        {name}
+                      </p>
+                    ))}
+                </div>
+              </div>
+              <Separator className="my-4" />
+            </div>
+
+            <div className="flex flex-col">
+              <div className="flex gap-[53px]">
+                <div className="flex w-16 font-bold">
+                  <p>Writers</p>
+                </div>
+
+                <div className="flex flex-wrap gap-5">
+                  {(movieCredits?.crew as any[] | undefined)
+                    ?.filter((c: any) => c.job === "Writer")
+                    .map(({ id, name }: any) => (
+                      <p key={id} className="font-regular">
+                        {name}
+                      </p>
+                    ))}
+                </div>
+              </div>
+              <Separator className="my-4" />
+            </div>
+
+            <div className="flex flex-col">
+              <div className="flex gap-[53px]">
+                <div className="flex w-16 font-bold">
+                  <p>Stars</p>
+                </div>
+
+                <div className="flex flex-wrap gap-5">
+                  {(movieCredits?.cast as any[] | undefined)
+                    ?.slice(0, 5)
+                    .map(({ id, name }: any) => (
+                      <p key={id} className="font-regular">
+                        {name}
+                      </p>
+                    ))}
+                </div>
+              </div>
+              <Separator className="my-4" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
