@@ -4,7 +4,7 @@ import Link from "next/link";
 
 type MovieCardProps = {
   id: number;
-  backdrop_path: string;
+  backdrop_path?: string;
   title: string;
   vote_average: string;
   className?: string;

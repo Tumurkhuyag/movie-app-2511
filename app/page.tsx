@@ -1,5 +1,4 @@
 import { Slides } from "@/components/carousel/Slides";
-import { Header } from "@/components/header/Header";
 import { CategorySection } from "@/components/movie/CategorySection";
 import { CATEGORIES } from "./_constants";
 

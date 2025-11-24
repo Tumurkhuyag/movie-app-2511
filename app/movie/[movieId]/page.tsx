@@ -13,12 +13,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { axiosInstance } from "@/lib/axios-instance";
-import { Star, User, Play } from "lucide-react";
+import { Star, User, Play, ArrowRight } from "lucide-react";
 import ReactPlayer from "react-player";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { CategorySection } from "@/components/movie/CategorySection";
+import Link from "next/link";
+import { MovieCard } from "@/components/cards/MovieCard";
 
 const CategorySectionDetail = () => {
   const params = useParams();
@@ -26,6 +29,8 @@ const CategorySectionDetail = () => {
   const [movieCredits, setMovieCredits] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
   const [trailerVideoURL, setTrailerVideoURL] = useState("");
+  const [similarMoviesSection, setSimilarMoviesSection] =
+    useState<MovieDetail[]>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,10 +47,15 @@ const CategorySectionDetail = () => {
         `/movie/${params.movieId}/credits?language=en-US`
       );
 
-      //   console.log(movieInfo);
+      const { data: similarMovies } = await axiosInstance(
+        `/movie/${params.movieId}/similar?language=en-US&page=1`
+      );
+
+      //   console.log(similarMovies.results);
       setMovieDetails(movieInfo);
       setTrailerVideoURL(trailerVideo?.results[0]?.key);
       setMovieCredits(movieCredit);
+      setSimilarMoviesSection(similarMovies.results);
       setIsLoading(false);
     };
     fetchData();
@@ -95,7 +105,7 @@ const CategorySectionDetail = () => {
             <MovieImage
               backdrop_path={movieDetails?.backdrop_path ?? ""}
               title={movieDetails?.title ?? ""}
-              className="w-full rounded-md"
+              className="w-full h-full rounded-md"
             />
 
             <Dialog>
@@ -197,6 +207,34 @@ const CategorySectionDetail = () => {
               </div>
               <Separator className="my-4" />
             </div>
+          </div>
+        </div>
+
+        <div className="w-full max-w-7xl m-auto mt-14 mb-14">
+          <div className="w-full flex items-center justify-between mb-8">
+            <p className="text-2xl font-semibold items-center">
+              More like this
+            </p>
+            {/* {console.log(categoryValue)} */}
+            <Link rel="preload" href={`/category/`}>
+              <Button variant="ghost">
+                <p>See more</p>
+                <ArrowRight />
+              </Button>
+            </Link>
+          </div>
+          <div className="grid grid-cols-5 grid-rows-1 gap-8">
+            {similarMoviesSection?.slice(0, 5).map((movie) => {
+              return (
+                <MovieCard
+                  key={movie.id}
+                  id={movie.id}
+                  backdrop_path={movie.backdrop_path}
+                  title={movie.title}
+                  vote_average={movie.vote_average}
+                />
+              );
+            })}
           </div>
         </div>
       </div>

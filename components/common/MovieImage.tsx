@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 type MovieImageProps = {
-  backdrop_path: string;
+  backdrop_path?: string;
   title: string;
   className: string;
 };
@@ -12,10 +12,11 @@ export const MovieImage = ({
   className,
 }: MovieImageProps) => {
   const imgUrl = `${process.env.NEXT_PUBLIC_TMDB_IMAGE_SERVICE_URL}/original${backdrop_path}`;
+  const img = backdrop_path ? imgUrl : "/Image_placeholder.jpg";
 
   return (
     <Image
-      src={imgUrl}
+      src={img}
       width={500}
       height={500}
       alt={title}

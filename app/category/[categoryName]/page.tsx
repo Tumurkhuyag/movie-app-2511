@@ -1,7 +1,6 @@
 "use client";
 
 import { MovieCard } from "@/components/cards/MovieCard";
-import { Header } from "@/components/header/Header";
 import { CategorySectionSkeleton } from "@/components/skeletons/CategorySectionSkeleton";
 import { axiosInstance } from "@/lib/axios-instance";
 import { useParams, useSearchParams } from "next/navigation";
