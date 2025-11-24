@@ -53,7 +53,7 @@ export const Slide = ({ movie }: { movie: MovieDetail }) => {
             <p className="text-neutral-50 text-lg font-semibold leading-7">
               {/* imgUrl дээр зураг орж ирэхдээ 20 слайд тус бүр дэрэ орж ирсэн мөртлөө энд яагаад нэг слайд дээр бүх оноонууд орж ирээд байгааг ойлгодоггүй */}
 
-              {movie.vote_average}
+              {Number(movie.vote_average)}
             </p>
             <p className="text-neutral-50 opacity-50 text-base font-normal leading-6">
               /10
